@@ -4,8 +4,8 @@ O trabalho consiste em elaborar um sistema, dos quais temos os seguintes pré-re
 
 1)  Descrição textual do banco de dados: apresente um texto resumido, descrevendo o banco de dados a ser
 criado, do ponto de vista dos usuários. Isso é chamado o universo de discurso do banco. Há exemplos desse 
-tipo de descrição nos Capítulos 7 e 8 do livro-texto adotado (Elmasri & Navathe. 6ª Edição. Editora São Paulo. 
-2010. Editora Pearson), bem como nos exercícios da disciplina, relativos a esses capítulos. O tamanho do 
+tipo de descrição nos Capítulos 7 e 8 do livro-texto adotado (Elmasri & Navathe. 6ª Edição. Editora São Paulo. 2010. Editora Pearson), 
+bem como nos exercícios da disciplina, relativos a esses capítulos. O tamanho do 
 texto é de 30 a 60 linhas. Dê nome ao seu banco de dados, como, por exemplo, BD de Recursos Humanos.
 
 2) Diagramação do banco em MER (Modelo Conceitual): elabore, a partir da descrição da etapa 1, um 
