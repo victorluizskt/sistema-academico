@@ -1,0 +1,2 @@
+Ter uma nova entidade turma para o relacionamento, e relacionar também o aluno com sala
+para que assim ele tenha os atributos

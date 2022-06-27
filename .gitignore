@@ -5,3 +5,7 @@ TecnologiasUtilizadas.txt
 Trabalho Prático BD I e LBD I - 1 Sem 2022.pdf
 Diagrama1.dia
 Datamodel.dmd
+**/*.localz
+**/*.local
+**/*.git
+**/*.DS_Store
