@@ -21,8 +21,12 @@ import RadioButton from '../../Molecules/RadioButton';
 const Login = () => {
   const navigate = useNavigate();
   const [typeUser, setTypeUser] = useState('');
-  console.log(typeUser)
+  // tirar o true e fazer uma verificação no banco
+  const [logged, setLogged] = useState(true); 
 
+  const signIn = () => {
+    if(logged) return navigate('/home');
+  }
   return (
     <Card width="275px" height="450px">
       <Label>
@@ -32,7 +36,7 @@ const Login = () => {
           <LabelContainer>
             <TextField id="login" label="Usuário" variant="outlined" />
             <TextField id="login" label="Senha" variant="outlined" type="password" />
-            <Button variant="contained">Entrar</Button>
+            <Button onClick={() => signIn()} variant="contained">Entrar</Button>
           </LabelContainer>
           <Button 
             onClick={() => navigate('/register')} 
