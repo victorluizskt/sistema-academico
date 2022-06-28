@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 export const Label = styled.div `
   display: grid;
@@ -11,16 +11,6 @@ export const Title = styled.span`
   margin-top: 10px;
   font-size: 30px;
   text-width: 20px;
-`;
-
-export const SubTitle = styled.span` 
-  text-align: center;
-  font-size: 16px;
-`;
-
-export const ImagesLogin = styled.div` 
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 export const LabelContainer = styled.div` 

@@ -3,10 +3,10 @@ import {
   CardContainer, 
 } from './styled';
 
-const Card = ({children}) => {
+const Card = ({children, width, height}) => {
 
   return (
-    <CardContainer>
+    <CardContainer width={width} height={height}>
       {children}
     </CardContainer>
   )

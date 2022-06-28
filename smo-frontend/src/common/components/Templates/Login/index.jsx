@@ -1,11 +1,11 @@
 import React from 'react';
 import Login from '../../Organism/Login'
 
-const HeaderLabel = () => {
+const LoginUser = () => {
 
   return (
     <Login />
   )
 }
 
-export default HeaderLabel;
+export default LoginUser;

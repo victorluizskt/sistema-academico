@@ -2,8 +2,8 @@ import styled from "styled-components"
 
 export const CardContainer = styled.div`
   background-color: #fff !important;
-  width: 275px;
-  height: 450px;
+  width: ${props => props.width}; 
+  height: ${props => props.height};
   position: absolute;
   top: 50%;
   left: 50%;

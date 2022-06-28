@@ -3,11 +3,7 @@
 import React, {useState} from 'react';
 import {
   TextField, 
-  RadioGroup, 
-  FormControlLabel, 
   Button,
-  Radio,
-  FormControl 
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Google from '../../../../assets/images/google.png'
@@ -20,36 +16,19 @@ import {
   ImagesLogin 
 } from './styled';
 import Card from '../../Molecules/Card'
+import RadioButton from '../../Molecules/RadioButton';
 
 const Login = () => {
   const navigate = useNavigate();
   const [typeUser, setTypeUser] = useState('');
-  
+  console.log(typeUser)
+
   return (
-    <Card>
+    <Card width="275px" height="450px">
       <Label>
           <Title>Bem vindo</Title>
           <SubTitle>Faça o login para continuar</SubTitle>
-          <FormControl style={{ marginLeft: '30px'}}>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
-              <FormControlLabel 
-                value="professor" 
-                control={<Radio />} 
-                label="Professor"
-                onChange={() => setTypeUser('professor')}
-              />
-              <FormControlLabel
-                value="aluno"
-                control={<Radio />}
-                label="Aluno"
-                onChange={() => setTypeUser('aluno')}
-              />
-            </RadioGroup>
-        </FormControl>
+          <RadioButton setTypeUser={setTypeUser} margin='43px' />
           <LabelContainer>
             <TextField id="login" label="Usuário" variant="outlined" />
             <TextField id="login" label="Senha" variant="outlined" type="password" />
