@@ -27,6 +27,7 @@ const Login = () => {
   const signIn = () => {
     if(logged) return navigate('/home');
   }
+
   return (
     <Card width="275px" height="450px">
       <Label>

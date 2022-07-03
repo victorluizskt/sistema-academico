@@ -13,13 +13,14 @@ const Header = () => {
   const pagesStudent = ['Ver notas', 'Ver perfil'];
   const pagesTeacher = ['Cadastrar notas', 'Ver turma'];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [typeUser, setTypeUser] = React.useState('aluno');
+  const [typeUser, setTypeUser] = React.useState('professor');
 
   // Vamos precisar ter um contexto global para pegar qual tipo de usuário logado no sistema
   const returnTypeUser = () => {
     if(typeUser === 'aluno') return pagesStudent;
     return pagesTeacher;
   };
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };

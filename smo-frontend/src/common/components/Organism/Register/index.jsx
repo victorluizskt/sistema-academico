@@ -48,9 +48,9 @@ const RegisterUser = () => {
               variant="outlined"
               onChange={handleChange}
             >
-              <MenuItem value={10}>Eng. Computação</MenuItem>
-              <MenuItem value={20}>Administração</MenuItem>
-              <MenuItem value={30}>Direito</MenuItem>
+              <MenuItem value={2}>Psicologia</MenuItem>
+              <MenuItem value={1}>Administração</MenuItem>
+              <MenuItem value={3}>Enfermagem</MenuItem>
             </Select>
             <TextField 
               id="phoneNumber" 

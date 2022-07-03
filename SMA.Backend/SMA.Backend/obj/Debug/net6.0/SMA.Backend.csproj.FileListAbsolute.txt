@@ -25,3 +25,10 @@ C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend
 C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\obj\Debug\net6.0\ref\SMA.Backend.dll
 C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\obj\Debug\net6.0\SMA.Backend.pdb
 C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\obj\Debug\net6.0\SMA.Backend.genruntimeconfig.cache
+C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\bin\Debug\net6.0\Dapper.dll
+C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\bin\Debug\net6.0\System.Data.SqlClient.dll
+C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\DCPDTI\Documents\Faculdade\7° Período\Banco de Dados I\TP\SMA.Backend\SMA.Backend\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
