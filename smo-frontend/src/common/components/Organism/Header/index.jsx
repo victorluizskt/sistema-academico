@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, {useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,15 +7,23 @@ import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { ContainerBody } from './styled';
+import { AuthContext } from '../../../../providers/auth'
 
 const Header = () => {
+  const { user } = React.useContext(AuthContext); 
+  const {
+    success, 
+    course, 
+    nameUser, 
+    passwordUser, 
+    registration, 
+    typeUser, 
+    userName
+  } = user;
+
   const pagesStudent = ['Ver notas', 'Ver perfil'];
   const pagesTeacher = ['Cadastrar notas', 'Ver turma'];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [typeUser, setTypeUser] = React.useState('professor');
-
-  // Vamos precisar ter um contexto global para pegar qual tipo de usuário logado no sistema
   const returnTypeUser = () => {
     if(typeUser === 'aluno') return pagesStudent;
     return pagesTeacher;
@@ -24,6 +32,8 @@ const Header = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  console.log(user);
 
   const pages = returnTypeUser();
 
