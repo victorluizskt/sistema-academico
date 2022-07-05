@@ -1,36 +1,42 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import * as React from "react";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import { useEffect, useContext } from "react";
+import Repository from "../../../../repositories/repository";
+import { AuthContext } from "../../../../providers/auth";
 
 const columns = [
-  { id: 'matter', label: 'Matéria', minWidth: 170 },
-  { id: 'nota', label: 'Nota', minWidth: 100 },
+  { id: "matter", label: "Matéria", minWidth: 170 },
+  { id: "nota", label: "Nota", minWidth: 100 },
   {
-    id: 'frequency',
-    label: 'Frequência',
+    id: "frequency",
+    label: "Frequência",
     minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    align: "right",
   },
   {
-    id: 'middleClass',
-    label: 'Média Turma',
+    id: "middleClass",
+    label: "Média Turma",
     minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    align: "right",
   },
   {
-    id: 'approved',
-    label: 'Aprovado',
+    id: "approved",
+    label: "Aprovado",
     minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
+    align: "right",
+  },
+  {
+    id: "teacher",
+    label: "Professor",
+    minWidth: 170,
+    align: "right",
   },
 ];
 
@@ -39,18 +45,21 @@ function createData(matter, nota, frequency, middleClass, approved) {
 }
 
 const rows = [
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
-  createData('Intr. Economia', '65', '90%', '72.15', 'Sim'),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
 ];
 
+const repository = new Repository();
+
 export default function TableContainerStudent() {
+  const { user } = useContext(AuthContext);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -63,9 +72,16 @@ export default function TableContainerStudent() {
     setPage(0);
   };
 
+  useEffect(() => {
+    (async () => {
+      const { data } = repository.getStudentTable(user.registration);
+      console.log(data);
+    })();
+  });
+
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: '90%' }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <TableContainer sx={{ maxHeight: "90%" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -90,7 +106,7 @@ export default function TableContainerStudent() {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
+                          {column.format && typeof value === "number"
                             ? column.format(value)
                             : value}
                         </TableCell>
