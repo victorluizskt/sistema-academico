@@ -8,23 +8,53 @@ import {
   Select 
 } from '@mui/material';
 import Card from '../../Molecules/Card'
+import Repository from '../../../../repositories/repository'
 import RadioButton from '../../Molecules/RadioButton';
+import { useNavigate } from 'react-router-dom';
 
+const repository = new Repository();
 
 const RegisterUser = () => {
+  const navigate = useNavigate();
   const [typeUser, setTypeUser] = useState('');
+  const [userName, setUserName] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [idCourse, setIdCourse] = useState('');
+  const [registration, setRegistration] = useState('');
   const [age, setAge] = React.useState('');
-  const courses = [
-    {value: 1, course: 'Eng. Computação'}, 
-    {value: 2, course: 'Direto' }, 
-    {value: 3, course: 'Administração'}
-  ]
+
   const handleChange = (event) => {
     setAge(event.target.value);
+    setIdCourse(event.target.value)
   };
 
+  const register = async () => {
+    if(typeUser === 'aluno'){
+      const request = {
+        userName: userName,
+        name: name,
+        password: password,
+        idCourse: idCourse,
+        registration: registration
+      }
+      const { data } = await repository.registerUser(request);
+      if(data) navigate('/login')
+    }
+
+    if(typeUser === 'professor'){
+      const request = {
+        userName: userName,
+        name: name,
+        password: password,
+        idCourse: idCourse,
+        registration: registration
+      }
+    }
+  }
+
   return (
-    <Card width="275px" height="500px">
+    <Card width="275px" height="560px">
       <Label>
         <Title>Vamos começar?</Title>
         <RadioButton setTypeUser={setTypeUser} margin='35px'/>
@@ -33,12 +63,20 @@ const RegisterUser = () => {
               id="login" 
               label="Usuário" 
               variant="outlined" 
+              onChange={(event) => setUserName(event.target.value)}
+            />
+            <TextField 
+              id="login" 
+              label="Nome" 
+              variant="outlined" 
+              onChange={(event) => setName( event.target.value)}
             />
             <TextField 
               id="password" 
               label="Senha" 
               variant="outlined" 
               type="password" 
+              onChange={(event) => setPassword(event.target.value)}
             />
             <Select
               labelId="demo-simple-select-label"
@@ -56,9 +94,10 @@ const RegisterUser = () => {
               id="phoneNumber" 
               label="Matrícula" 
               variant="outlined" 
-              type="phoneNumber" 
+              type="phoneNumber"
+              onChange = {(event) => setRegistration(event.target.value)}
             />
-            <Button variant="contained">Cadastrar</Button>
+            <Button onClick={register} variant="contained">Cadastrar</Button>
         </LabelContainer>
       </Label>
     </Card>

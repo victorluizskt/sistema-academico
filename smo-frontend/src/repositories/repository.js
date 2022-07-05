@@ -8,4 +8,12 @@ export default class Repository {
       return error;
     }
   }
+
+  registerUser = async(data) => {
+    try {
+      return await api.post('/student/registerStudent', data);
+    } catch(error) {
+      return error;
+    }
+  }
 }

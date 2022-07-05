@@ -96,10 +96,32 @@ namespace SMA.Backend.Controllers
             return list;
         }
 
+        [HttpPost("registerStudent")]
+        public async Task<bool> RegisterStudent(
+            [FromBody] StudentRegister request
+        )
+        {
+            using var conn = _session.Connection;
+            var dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("@userName", request.UserName);
+            dynamicParameters.Add("@name", request.UserName);
+            dynamicParameters.Add("@password", request.Password);
+            dynamicParameters.Add("@idCourse", request.IdCourse);
+            dynamicParameters.Add("@registration", request.Registration);
+            await conn.ExecuteAsync(REGISTER_STUDENT, dynamicParameters);
+
+            return true;
+        }
+
         #region Queries
         private readonly string REGISTER_STUDENT_DISCIPLINE = @"
             INSERT INTO dbo.metricas_alunos
             VALUES (@matricula, 0, 0, @id_turma, @id_professor, @id_disciplina);
+        ";
+
+        private readonly string REGISTER_STUDENT = @"
+            INSERT INTO dbo.aluno (matricula, nome, id_curso, usuario, senha)
+            VALUES (@registration, @name, @idCourse, @userName, @password)
         ";
 
         private readonly string GET_ALL_DISCIPLINE_STUDENT = @"

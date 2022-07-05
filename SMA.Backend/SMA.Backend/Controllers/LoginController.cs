@@ -29,11 +29,22 @@ namespace SMA.Backend.Controllers
                     return Ok(user);
             } else if(loginModel.TeacherOrStudent.Equals("professor"))
             {
-                var logged = await ValidateUser(loginModel.UserName, loginModel.Password, GET_TEACHER);
+                var user = await GetUserByRegistrationTeacher(loginModel);
+                if (user.Registration > 0)
+                    return Ok(user);
                 return Ok(logged);
             }
 
             return BadRequest("Não achamos o usuário");
+        }
+
+        private async Task<TeacherModelReturn> GetUserByRegistrationTeacher(LoginModel loginModel)
+        {
+            using var conn = _session.Connection;
+            var dynamic = new DynamicParameters();
+            dynamic.Add("@userName", loginModel.UserName, DbType.String);
+            dynamic.Add("@senha", loginModel.Password, DbType.Int32);
+            return await conn.QueryFirstOrDefaultAsync<TeacherModelReturn>(GET_INFO_STUDENT, dynamic);
         }
 
         private async Task<StudentReturnModel> GetUserByRegistration(LoginModel logged)
@@ -68,6 +79,17 @@ namespace SMA.Backend.Controllers
             WHERE 
                 alu.usuario = @userName
                 AND alu.senha = @senha;
+        ";
+
+        private readonly string GET_INFO_TEACHER = @"
+            SELECT 
+                prf.nome_professor as NomeProfessor,
+                prf.id_professor as IdProfessor,
+                prf.usuario as Usuario,
+                prf.senha as Senha,
+                prf
+            FROM dbo.professor prf
+            join dbo.disciplina disc on disc.id_disciplina = prf.id_disciplina
         ";
        
         private readonly string GET_TEACHER = @"
