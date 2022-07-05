@@ -77,7 +77,7 @@ export default function TableContainerStudent() {
       const { data } = repository.getStudentTable(user.registration);
       console.log(data);
     })();
-  });
+  },[]);
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
