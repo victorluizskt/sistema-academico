@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import  React, {useState} from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -83,7 +84,7 @@ export default function TableContainerStudent() {
       const {data} = await repository.getStudentTable(request);
       setStudentData(data)
     })();
-  }, []);
+  }, [user.registration]);
 
  
 
