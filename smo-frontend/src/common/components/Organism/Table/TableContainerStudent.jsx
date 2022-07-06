@@ -13,49 +13,49 @@ import Repository from "../../../../repositories/repository";
 import { AuthContext } from "../../../../providers/auth";
 
 const columns = [
-  { id: "matter", label: "Matéria", minWidth: 170 },
+  { id: "nomeDisciplina", label: "Matéria", minWidth: 170 },
   { id: "nota", label: "Nota", minWidth: 100 },
   {
-    id: "frequency",
+    id: "frequencia",
     label: "Frequência",
     minWidth: 170,
     align: "right",
   },
   {
-    id: "middleClass",
+    id: "mediaTurma",
     label: "Média Turma",
     minWidth: 170,
     align: "right",
   },
   {
-    id: "approved",
+    id: "aprovado",
     label: "Aprovado",
     minWidth: 170,
     align: "right",
   },
   {
-    id: "teacher",
+    id: "nomeProfessor",
     label: "Professor",
     minWidth: 170,
     align: "right",
   },
 ];
 
-function createData(matter, nota, frequency, middleClass, approved) {
-  return { matter, nota, frequency, middleClass, approved };
-}
+// function createData(matter, nota, frequency, middleClass, approved) {
+//   return { matter, nota, frequency, middleClass, approved };
+// }
 
-const rows = [
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-  createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
-];
+// const rows = [
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+//   createData("Intr. Economia", "65", "90%", "72.15", "Sim"),
+// ];
 
 const repository = new Repository();
 
@@ -106,11 +106,11 @@ export default function TableContainerStudent() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+            {studentData
+              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              ?.map((row, index) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -127,15 +127,7 @@ export default function TableContainerStudent() {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+
     </Paper>
   );
 }
