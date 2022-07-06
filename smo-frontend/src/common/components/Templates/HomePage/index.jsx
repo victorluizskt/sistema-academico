@@ -1,16 +1,17 @@
 import React, { useContext } from "react";
 import Header from "../../Organism/Header";
 import StudentTable from "../../Organism/Table/TableContainerStudent";
-import TeacherTable from "../../Organism/Table/TableContainerStudent";
+import TeacherTable from "../../Organism/Table/TableContainerTeacher";
 
 import { AuthContext } from "../../../../providers/auth";
 
 const HomePage = () => {
-  const { user } = useContext(AuthContext);
+  const { typeUser  } = useContext(AuthContext);
+  console.log(typeUser)
   return (
     <>
       <Header />
-      {user.typeUser === "aluno" ? <StudentTable /> : <TeacherTable />}
+      {typeUser.type === "aluno" ? <StudentTable /> : <TeacherTable />}
     </>
   );
 };

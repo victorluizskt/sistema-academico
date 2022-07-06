@@ -10,14 +10,13 @@ import MenuItem from "@mui/material/MenuItem";
 import { AuthContext } from "../../../../providers/auth";
 
 const Header = () => {
-  const { user } = React.useContext(AuthContext);
+  const { user, typeUser } = React.useContext(AuthContext);
   const {
     success,
     course,
     nameUser,
     passwordUser,
     registration,
-    typeUser,
     userName,
   } = user;
 
@@ -25,9 +24,8 @@ const Header = () => {
   const pagesTeacher = ["Cadastrar notas", "Ver turma"];
   // const [anchorElNav, setAnchorElNav] = React.useState(null);
   const returnTypeUser = () => {
-    // if (typeUser === "aluno") return pagesStudent;
-    // return pagesTeacher;
-    return pagesStudent;
+    if (typeUser.type === "aluno") return pagesStudent;
+    return pagesTeacher;
   };
 
   const handleCloseNavMenu = () => {

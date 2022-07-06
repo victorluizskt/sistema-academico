@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React, {useState} from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -60,6 +60,7 @@ const repository = new Repository();
 
 export default function TableContainerStudent() {
   const { user } = useContext(AuthContext);
+  const [studentData, setStudentData] = useState({});
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -72,12 +73,19 @@ export default function TableContainerStudent() {
     setPage(0);
   };
 
+
   useEffect(() => {
     (async () => {
-      const { data } = repository.getStudentTable(user.registration);
-      console.log(data);
+      const request = {
+        MatriculaAluno: user.registration
+      };
+
+      const {data} = await repository.getStudentTable(request);
+      setStudentData(data)
     })();
-  });
+  }, []);
+
+ 
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>

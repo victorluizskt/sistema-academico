@@ -24,7 +24,7 @@ const repository = new Repository();
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUser } = React.useContext(AuthContext); 
+  const { setUser, setTeacher, setTypeUserLogged } = React.useContext(AuthContext); 
   const [logged, setLogged] = useState(false); 
   const [typeUserLogged, setTypeUser] = useState('');
   const [login, setLogin] = useState('');
@@ -47,28 +47,58 @@ const Login = () => {
       'userName': login
     }
 
-    const { data: {
-      success, 
-      course, 
-      nameUser, 
-      passwordUser, 
-      registration, 
-      typeUser, 
-      userName
-      }
-    }  = await repository.checkUser(request);
-
-    setUser({
-      name: nameUser, 
-      password: passwordUser, 
-      registration:registration,
-      course: course,
-      typeUser: typeUser,
-      user: userName
+    setTypeUserLogged({
+      type: typeUserLogged
     })
 
-    if(success) return navigate('/home');
-    setLogged(!success)
+    if(typeUserLogged === 'aluno') {
+      const { data: {
+        success, 
+        course, 
+        nameUser, 
+        passwordUser, 
+        registration, 
+        typeUser, 
+        userName,
+        }
+      }  = await repository.checkUser(request);
+      setUser({
+        name: nameUser, 
+        password: passwordUser, 
+        registration:registration,
+        course: course,
+        typeUser: typeUser,
+        user: userName,
+        success: success
+      })
+
+      if(success) return navigate('/home');
+      setLogged(!success)
+
+    } else {
+      const { data: {
+        success,
+        NomeProfessor,
+        IdProfessor,
+        Usuario,
+        Senha,
+        IdDisciplina,
+        NomeDisciplina
+      }} = await repository.checkUser(request);
+
+      setTeacher({
+        NomeProfessor,
+        IdProfessor,
+        Usuario,
+        Senha,
+        IdDisciplina,
+        NomeDisciplina,
+        typeUser: typeUserLogged
+      })
+
+      if(success) return navigate('/home');
+      setLogged(!success)
+    }
   }
 
   return (

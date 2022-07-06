@@ -13,8 +13,22 @@ export const AuthProvider = (props) => {
     user: null
   })
 
+  const [typeUser, setTypeUserLogged] = useState({
+    type: null
+  })
+
+  const [teacher, setTeacher] = useState({
+    NomeProfessor: null,
+    IdProfessor: null,
+    Usuario: null,
+    Senha: null, 
+    IdDisciplina: null,
+    NomeDisciplina: null,
+    typeUser: null
+  })
+
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, typeUser, teacher, setUser, setTeacher, setTypeUserLogged }}>
       {props.children}
     </AuthContext.Provider>
   )

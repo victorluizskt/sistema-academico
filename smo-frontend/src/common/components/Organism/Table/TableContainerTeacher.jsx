@@ -72,12 +72,14 @@ export default function TableContainerStudent() {
     setPage(0);
   };
 
-  useEffect(() => {
-    (async () => {
-      const { data } = repository.getStudentTable(user.registration);
-      console.log(data);
-    })();
-  },[]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const { data } = repository.getStudentTable(user.registration);
+  //     console.log(data);
+  //   })();
+  // },[]);
+
+  console.log('Oi mundo')
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>

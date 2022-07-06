@@ -30,9 +30,8 @@ namespace SMA.Backend.Controllers
             } else if(loginModel.TeacherOrStudent.Equals("professor"))
             {
                 var user = await GetUserByRegistrationTeacher(loginModel);
-                if (user.Registration > 0)
+                if (user.IdProfessor > 0)
                     return Ok(user);
-                return Ok(logged);
             }
 
             return BadRequest("Não achamos o usuário");
@@ -43,8 +42,8 @@ namespace SMA.Backend.Controllers
             using var conn = _session.Connection;
             var dynamic = new DynamicParameters();
             dynamic.Add("@userName", loginModel.UserName, DbType.String);
-            dynamic.Add("@senha", loginModel.Password, DbType.Int32);
-            return await conn.QueryFirstOrDefaultAsync<TeacherModelReturn>(GET_INFO_STUDENT, dynamic);
+            dynamic.Add("@senha", loginModel.Password, DbType.String);
+            return await conn.QueryFirstOrDefaultAsync<TeacherModelReturn>(GET_INFO_TEACHER, dynamic);
         }
 
         private async Task<StudentReturnModel> GetUserByRegistration(LoginModel logged)
@@ -55,14 +54,6 @@ namespace SMA.Backend.Controllers
             dynamic.Add("@senha", logged.Password, DbType.Int32);
             return await conn.QueryFirstOrDefaultAsync<StudentReturnModel>(GET_INFO_STUDENT, dynamic);
         }
-
-        private async Task<string> ValidateUser(string username, string password, string queryProccess)
-        {
-            using var conn = _session.Connection;
-            var query = string.Format(queryProccess, username, password);
-            return await conn.QueryFirstOrDefaultAsync<string>(query);
-        }
-
 
         #region Queries
         private readonly string GET_INFO_STUDENT = @"
@@ -87,13 +78,13 @@ namespace SMA.Backend.Controllers
                 prf.id_professor as IdProfessor,
                 prf.usuario as Usuario,
                 prf.senha as Senha,
-                prf
+	            disc.id_disciplina AS IdDisciplina, 
+                1 as Success,
+	            disc.nome_disciplina as NomeDisciplina
             FROM dbo.professor prf
-            join dbo.disciplina disc on disc.id_disciplina = prf.id_disciplina
-        ";
-       
-        private readonly string GET_TEACHER = @"
-            SELECT * FROM dbo.professor WHERE usuario = '{0}' AND senha = '{1}'
+            INNER JOIN dbo.disciplina disc on disc.id_disciplina = prf.id_disciplina
+            WHERE prf.usuario = @userName
+                  AND prf.senha = @senha
         ";
         #endregion
     }

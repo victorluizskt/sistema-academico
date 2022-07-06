@@ -14,29 +14,6 @@ namespace SMA.Backend.Controllers
             _session = dbSession;
         }
 
-        [HttpPost("insertStudent")]
-        public async Task<IActionResult> UpdateStudent(
-        [FromBody] StudentModel request
-        )
-        {
-            using var conn = _session.Connection;
-            if (request.Registration > 0 && request.TypeUser.Equals("Aluno"))
-            {
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@registration", request.Registration);
-                dynamicParameters.Add("@name", request.NameUser);
-                dynamicParameters.Add("@idCourse", request.Course);
-                dynamicParameters.Add("@user", request.UserName);
-                dynamicParameters.Add("@password", request.PasswordUser);
-
-                await conn.ExecuteAsync(INSERT_STUDENT, dynamicParameters);
-                return Ok("Usuário criado com sucesso.");
-            }
-
-            return BadRequest("Informações inválidas.");
-        }
-
-
         [HttpPut("updateStudent")]
         public async Task<IActionResult> UpdateStudent(
         [FromBody] StudentInfos request
@@ -85,15 +62,22 @@ namespace SMA.Backend.Controllers
         }
 
         [HttpPost("getAllDisciplineStudent")]
-        public async Task<IEnumerable<object>> GetAllDisciplineStudent(
-            [FromBody] int StudentId    
+        public async Task<IEnumerable<StudentDisciplinesReturn>> GetAllDisciplineStudent(
+            [FromBody] Matricula matricula
         )
         {
+            
             using var conn = _session.Connection;
             var dynamicParameters = new DynamicParameters();
-            dynamicParameters.Add("@StudentId", StudentId);
-            var list = await conn.QueryAsync(GET_ALL_DISCIPLINE_STUDENT, dynamicParameters);
-            return list;
+            dynamicParameters.Add("@StudentId", matricula.MatriculaAluno);
+            var list = await conn.QueryAsync<StudentDisciplines>(GET_ALL_DISCIPLINE_STUDENT, dynamicParameters);
+
+            var listaComAprovado = list.Select(
+                turma => turma.Nota >= 60 && turma.Frequencia >= 70 ?
+                new StudentDisciplinesReturn(turma, "Aprovado")
+                : new StudentDisciplinesReturn(turma, "Reprovado"));
+            
+            return listaComAprovado;
         }
 
         [HttpPost("registerStudent")]
@@ -119,6 +103,10 @@ namespace SMA.Backend.Controllers
             VALUES (@matricula, 0, 0, @id_turma, @id_professor, @id_disciplina);
         ";
 
+        private readonly string PEGAR_MEDIA_TURMA = @"
+            SELECT nota FROM dbo.metricas_aluno;
+        ";
+
         private readonly string REGISTER_STUDENT = @"
             INSERT INTO dbo.aluno (matricula, nome, id_curso, usuario, senha)
             VALUES (@registration, @name, @idCourse, @userName, @password)
@@ -126,12 +114,10 @@ namespace SMA.Backend.Controllers
 
         private readonly string GET_ALL_DISCIPLINE_STUDENT = @"
             SELECT 
-	            mal.matricula as Matricula,
-	            mal.frequencia as Frequencia,
-	            mal.nota as Nota,
-	            pro.nome_professor as Professor,
 	            dis.nome_disciplina as NomeDisciplina,
-	            alu.nome as NomeAluno
+	            mal.nota as Nota,
+	            mal.frequencia as Frequencia,
+	            pro.nome_professor as NomeProfessor
             FROM dbo.metricas_aluno mal
             INNER JOIN dbo.professor pro ON pro.id_professor = mal.id_professor
             INNER JOIN dbo.disciplina dis ON dis.id_disciplina = mal.id_disciplina
