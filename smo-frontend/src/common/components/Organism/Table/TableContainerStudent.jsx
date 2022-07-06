@@ -61,19 +61,11 @@ const repository = new Repository();
 
 export default function TableContainerStudent() {
   const { user } = useContext(AuthContext);
-  const [studentData, setStudentData] = useState({});
+  const [studentData, setStudentData] = useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
 
   useEffect(() => {
     (async () => {
@@ -83,6 +75,7 @@ export default function TableContainerStudent() {
 
       const {data} = await repository.getStudentTable(request);
       setStudentData(data)
+      console.log(studentData);
     })();
   }, [user.registration]);
 
@@ -107,7 +100,6 @@ export default function TableContainerStudent() {
           </TableHead>
           <TableBody>
             {studentData
-              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               ?.map((row, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={index}>
