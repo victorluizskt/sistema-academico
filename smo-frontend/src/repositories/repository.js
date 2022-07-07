@@ -33,4 +33,12 @@ export default class Repository {
       console.log(error);
     }
   };
+
+  addStudent = async (data) => {
+    try {
+      return await api.post("/student/addStudent", data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
