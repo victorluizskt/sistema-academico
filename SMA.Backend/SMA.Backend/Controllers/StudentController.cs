@@ -14,22 +14,6 @@ namespace SMA.Backend.Controllers
             _session = dbSession;
         }
 
-        [HttpPut("updateStudent")]
-        public async Task<IActionResult> UpdateStudent(
-        [FromBody] StudentInfos request
-        )
-        {
-            using var conn = _session.Connection;
-            if(request.Matricula is not null)
-            {
-                var query = string.Format(UPDATE_STUDENT, request.User, request.Password, request.Matricula);
-                await conn.ExecuteAsync(query);
-                return Ok("Usuário alterado com sucesso.");
-            }
-
-            return BadRequest("Usuário não existe em nossa base de dados");
-        }
-
         [HttpDelete("deleteStudent")]
         public async Task<IActionResult> DeleteStudent(
             [FromBody] StudentId studentId
@@ -44,6 +28,37 @@ namespace SMA.Backend.Controllers
             }
 
             return BadRequest("Usuário não existe em nossa base de dados");
+        }
+
+        [HttpPost("getAllDiscipline")]
+        public async Task<IActionResult> GetAllDiscipline(
+            [FromBody] Matricula matricula
+        )
+        {
+            using var conn = _session.Connection;
+            if (matricula.MatriculaAluno > 0)
+            {
+                var dynamicParameters = new DynamicParameters();
+                dynamicParameters.Add("@matricula", matricula.MatriculaAluno);
+                var lista1 = await conn.QueryAsync<RetornarDisciplinas>(GET_ALL_DISCIPLINE);
+                var lista2 = await conn.QueryAsync<RetornarDisciplinas>(GET_ALL_DISCIPLINE_TO_STUDENT, dynamicParameters);
+                var lista3 = new List<RetornarDisciplinas> { };
+                
+                foreach(var item in lista1)
+                {
+                    foreach(var item2 in lista2)
+                    {
+                        if(item.NomeDisciplina != item2.NomeDisciplina)
+                        {
+                            lista3.Add(item);
+                        }
+                    }
+                }
+
+                return Ok(lista3);
+            }
+
+            return BadRequest();
         }
 
         [HttpPost("registerStudentDiscipline")]
@@ -124,11 +139,6 @@ namespace SMA.Backend.Controllers
             INNER JOIN dbo.aluno alu ON alu.matricula = mal.matricula
             WHERE mal.matricula = @StudentId
         ";
-        private readonly string UPDATE_STUDENT = @"
-            UPDATE dbo.aluno
-            SET usuario = '{0}', senha = '{1}'
-            WHERE matricula = '{2}'
-        ";
 
         private readonly string DELETE_STUDENT = @"
             DELETE dbo.metricas_aluno 
@@ -138,9 +148,34 @@ namespace SMA.Backend.Controllers
             WHERE matricula = '{1}'
         ";
 
-        private readonly string INSERT_STUDENT = @"
-            INSERT INTO dbo.aluno (matricula, nome, id_curso, usuario, senha)
-            VALUES (@registration, @name, @idCourse, @user, @password);
+        private readonly string GET_ALL_DISCIPLINE = @"
+            SELECT 
+	        disc.nome_disciplina as NomeDisciplina,
+	        disc.carga_horaria as CargaHoraria,
+	        disc.id_sala as Sala,
+	        disc.horario as horario,
+	        disc.qnt_max_aluno as quantidadeMaximaAluno,
+	        prof.nome_professor as Professor,
+	        prof.id_disciplina as IdProfessor,
+	        disc.id_disciplina as IdDisciplina
+        FROM dbo.disciplina disc
+        INNER JOIN dbo.professor prof on prof.id_professor = disc.id_professor
+        ";
+
+        private readonly string GET_ALL_DISCIPLINE_TO_STUDENT = @"
+            SELECT 
+	            disc.nome_disciplina as NomeDisciplina,
+	            disc.carga_horaria as CargaHoraria,
+	            disc.id_sala as Sala,
+	            disc.horario as horario,
+	            disc.qnt_max_aluno as quantidadeMaximaAluno,
+	            prof.nome_professor as Professor,
+	            prof.id_disciplina as IdProfessor,
+	            disc.id_disciplina as IdDisciplina
+            FROM dbo.disciplina disc
+            INNER JOIN dbo.professor prof on prof.id_professor = disc.id_professor
+            INNER JOIN dbo.metricas_aluno met on met.id_disciplina = disc.id_disciplina
+            WHERE met.matricula = @matricula
         ";
         #endregion  
     }
