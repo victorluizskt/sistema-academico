@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import Header from "../../Organism/Header";
 import StudentTable from "../../Organism/Table/TableContainerStudent";
+import TableMatriculaAluno from "../../Organism/Table/TableMatriculaAluno";
 import TeacherTable from "../../Organism/Table/TableContainerTeacher";
 
 import { AuthContext } from "../../../../providers/auth";
@@ -15,7 +16,7 @@ const HomePage = () => {
         return <StudentTable />;
 
       case "MATRICULAR EM UMA TURMA":
-        return ;
+        return <TableMatriculaAluno />;
       // case "CADASTRAR NOTAS":
       //   setSelectPage("CADASTRAR NOTAS");
       // default:

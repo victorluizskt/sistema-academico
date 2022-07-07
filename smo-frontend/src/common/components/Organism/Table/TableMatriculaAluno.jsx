@@ -56,7 +56,7 @@ export default function TableMatriculaAluno() {
         MatriculaAluno: user.registration,
       };
 
-      const { data } = await repository.getStudentTable(request);
+      const { data } = await repository.getTableMatriculaAluno(request);
       setStudentData(data);
       console.log(data);
     })();
@@ -64,7 +64,7 @@ export default function TableMatriculaAluno() {
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        // rows={rows}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
