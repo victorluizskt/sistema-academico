@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import  React, {useState} from "react";
+import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -70,16 +70,13 @@ export default function TableContainerStudent() {
   useEffect(() => {
     (async () => {
       const request = {
-        MatriculaAluno: user.registration
+        MatriculaAluno: user.registration,
       };
 
-      const {data} = await repository.getStudentTable(request);
-      setStudentData(data)
-      console.log(studentData);
+      const { data } = await repository.getStudentTable(request);
+      setStudentData(data);
     })();
   }, [user.registration]);
-
- 
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -99,27 +96,25 @@ export default function TableContainerStudent() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {studentData
-              ?.map((row, index) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+            {studentData?.map((row, index) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (
+                      <TableCell key={column.id} align={column.align}>
+                        {column.format && typeof value === "number"
+                          ? column.format(value)
+                          : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
-
     </Paper>
   );
 }

@@ -80,7 +80,6 @@ export default function TableContainerStudent() {
   //   })();
   // },[]);
 
-  console.log('Oi mundo')
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>

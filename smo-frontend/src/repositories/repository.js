@@ -5,7 +5,7 @@ export default class Repository {
     try {
       return await api.post("/login", data);
     } catch (error) {
-      return error;
+      console.log(error);
     }
   };
 
@@ -13,7 +13,7 @@ export default class Repository {
     try {
       return await api.post("/student/registerStudent", data);
     } catch (error) {
-      return error;
+      console.log(error);
     }
   };
 
@@ -22,7 +22,15 @@ export default class Repository {
     try {
       return await api.post("/student/getAllDisciplineStudent", data);
     } catch (error) {
-      return error;
+      console.log(error);
+    }
+  };
+
+  getTableMatriculaAluno = async (data) => {
+    try {
+      return await api.post("/student/getAllDiscipline", data);
+    } catch (error) {
+      console.log(error);
     }
   };
 }

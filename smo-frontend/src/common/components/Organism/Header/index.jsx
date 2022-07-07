@@ -1,18 +1,18 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
 import { AuthContext } from "../../../../providers/auth";
+import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ setSelectPage }) => {
   const { user, typeUser } = React.useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     success,
+
     course,
     nameUser,
     passwordUser,
@@ -28,11 +28,22 @@ const Header = () => {
     return pagesTeacher;
   };
 
-  const handleCloseNavMenu = () => {
-    // setAnchorElNav(null);
+  const handleCloseNavMenu = (e) => {
+    switch (e.target.innerText) {
+      case "VER NOTAS":
+        setSelectPage("VER NOTAS");
+        break;
+      case "MATRICULAR EM UMA TURMA":
+        setSelectPage("MATRICULAR EM UMA TURMA");
+        break;
+      case "CADASTRAR NOTAS":
+        setSelectPage("CADASTRAR NOTAS");
+        break;
+      default:
+        setSelectPage("VER TURMA");
+        break;
+    }
   };
-
-  console.log(user);
 
   const pages = returnTypeUser();
 

@@ -14,7 +14,7 @@ export const AuthProvider = (props) => {
   })
 
   const [typeUser, setTypeUserLogged] = useState({
-    type: null
+    type: 'aluno'
   })
 
   const [teacher, setTeacher] = useState({
