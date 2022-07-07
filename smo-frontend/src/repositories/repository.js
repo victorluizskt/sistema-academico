@@ -36,7 +36,7 @@ export default class Repository {
 
   addStudent = async (data) => {
     try {
-      return await api.post("/student/addStudent", data);
+      return await api.post("/student/addStudentDiscipline", data);
     } catch (error) {
       console.log(error);
     }

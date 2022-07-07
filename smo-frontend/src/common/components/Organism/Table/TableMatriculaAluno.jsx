@@ -25,19 +25,19 @@ export default function TableMatriculaAluno() {
   const { user } = useContext(AuthContext);
 
   const handleClick = async (idDisciplina, idProfessor, sala, index) => {
+    const request = {
+      'MatriculaAluno': user.registration,
+      'TurmaAluno': sala,
+      'IdProfessor': idProfessor,
+      'IdDisciplina': idDisciplina
+    };
+
+    const { data } = await repository.addStudent(request);
+    console.log(data)
     let aux = studentData;
     aux[index].disabled = true;
 
     setStudentData(aux);
-
-    const obj = {
-      MatriculaAluno: user.registration,
-      TurmaAluno: sala,
-      IdProfessor: idProfessor,
-      IdDisciplina: idDisciplina,
-    };
-
-    await repository.addStudent(obj);
   };
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function TableMatriculaAluno() {
       const { data } = await repository.getTableMatriculaAluno(request);
       data.map((obj) => ({
         ...obj,
-        disabled: false,
+        disabled: true,
       }));
       setStudentData(data);
     })();

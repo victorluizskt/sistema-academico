@@ -14,6 +14,8 @@ namespace SMA.Backend.Controllers
             _session = dbSession;
         }
 
+        
+
         [HttpDelete("deleteStudent")]
         public async Task<IActionResult> DeleteStudent(
             [FromBody] StudentId studentId
@@ -42,23 +44,34 @@ namespace SMA.Backend.Controllers
                 dynamicParameters.Add("@matricula", matricula.MatriculaAluno);
                 var lista1 = await conn.QueryAsync<RetornarDisciplinas>(GET_ALL_DISCIPLINE);
                 var lista2 = await conn.QueryAsync<RetornarDisciplinas>(GET_ALL_DISCIPLINE_TO_STUDENT, dynamicParameters);
-                var lista3 = new List<RetornarDisciplinas> { };
-                
-                foreach(var item in lista1)
+                var lista4 = lista2.Select(x => x.IdDisciplina);
+
+                if (lista2.Any())
                 {
-                    foreach(var item2 in lista2)
-                    {
-                        if(item.NomeDisciplina != item2.NomeDisciplina)
-                        {
-                            lista3.Add(item);
-                        }
-                    }
+                    var lista3 = lista1.Where(i => !lista4.Contains(i.IdDisciplina));
+                    return Ok(lista3);
                 }
 
-                return Ok(lista3);
+                return Ok(lista1);
             }
 
             return BadRequest();
+        }
+
+        [HttpPost("addStudentDiscipline")]
+        public async Task<IActionResult> AddStudentMethod(
+            [FromBody] Matricula matricula
+        )
+        {
+            using var conn = _session.Connection;
+            var dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("@matricula", matricula.MatriculaAluno);
+            dynamicParameters.Add("@idTurma", matricula.TurmaAluno);
+            dynamicParameters.Add("@idProfessor", matricula.IdProfessor);
+            dynamicParameters.Add("@idDisciplina", matricula.IdDisciplina);
+
+            await conn.ExecuteAsync(ADD_STUDENT_IN_DISCIPLINE, dynamicParameters);
+            return Ok();
         }
 
         [HttpPost("registerStudentDiscipline")]
@@ -116,6 +129,11 @@ namespace SMA.Backend.Controllers
         private readonly string REGISTER_STUDENT_DISCIPLINE = @"
             INSERT INTO dbo.metricas_alunos
             VALUES (@matricula, 0, 0, @id_turma, @id_professor, @id_disciplina);
+        ";
+
+        private readonly string ADD_STUDENT_IN_DISCIPLINE = @"
+            INSERT INTO dbo.metricas_aluno (matricula, id_turma, id_professor, id_disciplina, frequencia, nota)
+            VALUES (@matricula, @idTurma, @idProfessor, @idDisciplina, 0, 0)
         ";
 
         private readonly string PEGAR_MEDIA_TURMA = @"
@@ -177,6 +195,22 @@ namespace SMA.Backend.Controllers
             INNER JOIN dbo.metricas_aluno met on met.id_disciplina = disc.id_disciplina
             WHERE met.matricula = @matricula
         ";
+
+        private static bool PegarDisciplinasDiferentes(
+            IEnumerable<RetornarDisciplinas> retornars, 
+            RetornarDisciplinas retornarDisciplinas
+        )
+        {
+            foreach(var item1 in retornars)
+            {
+                if(item1.IdDisciplina == retornarDisciplinas.IdDisciplina)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
         #endregion  
     }
 }
