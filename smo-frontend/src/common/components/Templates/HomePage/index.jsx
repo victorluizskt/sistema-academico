@@ -3,24 +3,27 @@ import Header from "../../Organism/Header";
 import StudentTable from "../../Organism/Table/TableContainerStudent";
 import TableMatriculaAluno from "../../Organism/Table/TableMatriculaAluno";
 import TeacherTable from "../../Organism/Table/TableContainerTeacher";
+import EmptyState from "../../Organism/EmptyState"
+import TableContainerRegisterMetrics from '../../Organism/Table/TableContainerRegisterMetrics'
 
 import { AuthContext } from "../../../../providers/auth";
 
 const HomePage = () => {
-  // const { typeUser  } = useContext(AuthContext);
+  const { typeUser  } = useContext(AuthContext);
   const [selectPage, setSelectPage] = useState('');
-
+  console.log(typeUser)
   const selectRender = () => {
     switch (selectPage) {
       case "VER NOTAS":
         return <StudentTable />;
-
       case "MATRICULAR EM UMA TURMA":
         return <TableMatriculaAluno />;
-      // case "CADASTRAR NOTAS":
-      //   setSelectPage("CADASTRAR NOTAS");
-      // default:
-      //   setSelectPage("VER TURMA");
+      case "VER TURMA":
+        return <TeacherTable />;
+      case "CADASTRAR NOTAS":
+        return <TableContainerRegisterMetrics />;
+      default:
+        return <EmptyState/>;
     }
   };
   return (

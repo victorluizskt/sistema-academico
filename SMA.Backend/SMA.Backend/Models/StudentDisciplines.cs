@@ -3,8 +3,8 @@
     public class StudentDisciplines
     {
         public string NomeDisciplina { get; set; }
-        public int Nota { get; set; }
-        public int Frequencia { get; set; }
+        public string Nota { get; set; }
+        public string Frequencia { get; set; }
         public string NomeProfessor { get; set; }
         
     }

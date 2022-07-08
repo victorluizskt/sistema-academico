@@ -99,12 +99,27 @@ namespace SMA.Backend.Controllers
             var dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("@StudentId", matricula.MatriculaAluno);
             var list = await conn.QueryAsync<StudentDisciplines>(GET_ALL_DISCIPLINE_STUDENT, dynamicParameters);
+            var listaComAprovado = new List<StudentDisciplinesReturn> { };
+            foreach(var item in list)
+            {
+                var nota = int.TryParse(item.Nota, out int number);
+                if (nota)
+                {
+                    if(Int32.Parse(item.Nota) >= 60) {
+                        listaComAprovado.Add(new StudentDisciplinesReturn(item, $"Aprovado"));
+                    } else if (Int32.Parse(item.Nota) == 0)
+                    {
+                        item.Nota = "N/A";
+                        item.Frequencia = "N/A";
+                        listaComAprovado.Add(new StudentDisciplinesReturn(item, $"Notas não lançadas"));
+                    } 
+                    else
+                    {
+                        listaComAprovado.Add(new StudentDisciplinesReturn(item, $"Reprovado"));
+                    }
+                } 
+            }
 
-            var listaComAprovado = list.Select(
-                turma => turma.Nota >= 60 && turma.Frequencia >= 70 ?
-                new StudentDisciplinesReturn(turma, "Aprovado")
-                : new StudentDisciplinesReturn(turma, "Reprovado"));
-            
             return listaComAprovado;
         }
 

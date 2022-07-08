@@ -12,7 +12,6 @@ const Header = ({ setSelectPage }) => {
   const navigate = useNavigate();
   const {
     success,
-
     course,
     nameUser,
     passwordUser,
@@ -22,7 +21,6 @@ const Header = ({ setSelectPage }) => {
 
   const pagesStudent = ["Ver notas", "Matricular em uma Turma"];
   const pagesTeacher = ["Cadastrar notas", "Ver turma"];
-  // const [anchorElNav, setAnchorElNav] = React.useState(null);
   const returnTypeUser = () => {
     if (typeUser.type === "aluno") return pagesStudent;
     return pagesTeacher;
@@ -39,8 +37,11 @@ const Header = ({ setSelectPage }) => {
       case "CADASTRAR NOTAS":
         setSelectPage("CADASTRAR NOTAS");
         break;
-      default:
+      case "VER TURMA":
         setSelectPage("VER TURMA");
+      break;
+      default:
+        setSelectPage("EMPTY");
         break;
     }
   };

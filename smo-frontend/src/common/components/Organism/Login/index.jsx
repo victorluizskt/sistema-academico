@@ -74,7 +74,6 @@ const Login = () => {
 
       if(success) return navigate('/home');
       setLogged(!success)
-
     } else {
       const { data: {
         success,
