@@ -42,9 +42,8 @@ export default function TableContainerRegisterMetrics() {
     }
 
     try {
-      const { data } = await repository.editStudent(request);
-      console.log(data);
-      setOpen(data.success);
+      const { status } = await repository.editStudent(request);
+      setOpen(status);
       return
     } catch (error) {
       console.log(error)
@@ -127,7 +126,7 @@ export default function TableContainerRegisterMetrics() {
       </table>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          This is a success message!
+          Aluno editado com sucesso!
         </Alert>
       </Snackbar>
     </div>

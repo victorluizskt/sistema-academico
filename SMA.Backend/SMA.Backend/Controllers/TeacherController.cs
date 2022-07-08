@@ -64,7 +64,8 @@ namespace SMA.Backend.Controllers
 	            disc.id_disciplina as IdDisciplina,
 	            disc.horario as Horario,
 	            met.frequencia as FrequenciaAluno,
-	            met.nota as NotaAluno
+	            met.nota as NotaAluno,
+                met.matricula MatriculaAluno
             FROM dbo.professor prof
             INNER JOIN dbo.metricas_aluno met ON met.id_professor = prof.id_professor
             INNER JOIN dbo.aluno alu ON alu.matricula = met.matricula
