@@ -31,23 +31,29 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export default function TableContainerRegisterMetrics() {
   const [studentsData, setStudentsData] = useState([]);
   const { teacher } = useContext(AuthContext);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState({ notaAluno: "", frequenciaAluno: "" });
 
-  const handleClick = async (studentId, idDisciplina, notaAluno, frequenciaAluno) => {
+  const handleClick = async (
+    studentId,
+    idDisciplina,
+    notaAluno,
+    frequenciaAluno
+  ) => {
     var request = {
-      'studentId': studentId,
-      'idDisciplina': idDisciplina,
-      'notaAluno': notaAluno,
-      'frequenciaAluno': frequenciaAluno
-    }
+      studentId: studentId,
+      idDisciplina: idDisciplina,
+      notaAluno: notaAluno,
+      frequenciaAluno: frequenciaAluno,
+    };
 
     try {
       const { data } = await repository.editStudent(request);
       console.log(data);
       setOpen(data.success);
-      return
+      return;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -59,10 +65,17 @@ export default function TableContainerRegisterMetrics() {
     setOpen(false);
   };
 
+  const handleOnChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setState({ ...state, [name]: value });
+  };
+
   useEffect(() => {
     (async () => {
       const request = {
-        'professorId': teacher.idProfessor
+        professorId: teacher.idProfessor,
       };
 
       const { data } = await repository.getAllStudents(request);
@@ -90,14 +103,18 @@ export default function TableContainerRegisterMetrics() {
               <TextField
                 fullWidth
                 variant="standard"
+                name="notaAluno"
                 value={obj.notaAluno}
+                onChange={(e) => handleOnChange(e)}
               />
             </td>
             <td>
               <TextField
                 fullWidth
                 variant="standard"
+                name="frequenciaAluno"
                 value={obj.frequenciaAluno}
+                onChange={(e) => handleOnChange(e)}
               />
             </td>
             <td>
@@ -110,8 +127,8 @@ export default function TableContainerRegisterMetrics() {
                     }}
                     onClick={() => {
                       handleClick(
-                        obj.matriculaAluno, 
-                        obj.idDisciplina, 
+                        obj.matriculaAluno,
+                        obj.idDisciplina,
                         obj.notaAluno,
                         obj.frequenciaAluno
                       );
