@@ -36,7 +36,7 @@ export default function TableContainerStudent() {
             <td>{obj.nomeCurso}</td>
             <td>{obj.nomeDisciplina}</td>
             <td>{obj.horario}</td>
-            <td>{obj.frequenciaAluno}</td>
+            <td>{obj.frequenciaAluno}%</td>
           </tr>
         ))}
       </table>

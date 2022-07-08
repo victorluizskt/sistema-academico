@@ -4,6 +4,8 @@ import { AuthContext } from "../../../../providers/auth";
 import Repository from "../../../../repositories/repository";
 import Button from "@mui/material/Button";
 import "./index.css";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const repository = new Repository();
@@ -20,8 +22,13 @@ const theme = createTheme({
   },
 });
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function TableMatriculaAluno() {
   const [studentData, setStudentData] = useState([]);
+  const [open, setOpen] = useState(false);
   const { user } = useContext(AuthContext);
 
   const handleClick = async (idDisciplina, idProfessor, sala, index) => {
@@ -32,12 +39,20 @@ export default function TableMatriculaAluno() {
       'IdDisciplina': idDisciplina
     };
 
-    const { data } = await repository.addStudent(request);
-    console.log(data)
+    await repository.addStudent(request);
+    setOpen(true);
     let aux = studentData;
     aux[index].disabled = true;
 
     setStudentData(aux);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -93,6 +108,11 @@ export default function TableMatriculaAluno() {
           </tr>
         ))}
       </table>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Matriculado na disciplina com sucesso!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

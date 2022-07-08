@@ -36,15 +36,13 @@ export default function TableContainerRegisterMetrics() {
 
   const handleClick = async (
     studentId,
-    idDisciplina,
-    notaAluno,
-    frequenciaAluno
+    idDisciplina
   ) => {
     var request = {
       studentId: studentId,
       idDisciplina: idDisciplina,
-      notaAluno: notaAluno,
-      frequenciaAluno: frequenciaAluno,
+      notaAluno: state.notaAluno,
+      frequenciaAluno: state.frequenciaAluno,
     };
 
     try {
@@ -78,6 +76,7 @@ export default function TableContainerRegisterMetrics() {
       };
 
       const { data } = await repository.getAllStudents(request);
+
       setStudentsData(data);
     })();
   }, [teacher.idProfessor]);
@@ -103,7 +102,8 @@ export default function TableContainerRegisterMetrics() {
                 fullWidth
                 variant="standard"
                 name="notaAluno"
-                value={obj.notaAluno}
+                placeholder={obj.notaAluno}
+                value={state.notaAluno}
                 onChange={(e) => handleOnChange(e)}
               />
             </td>
@@ -111,8 +111,9 @@ export default function TableContainerRegisterMetrics() {
               <TextField
                 fullWidth
                 variant="standard"
+                placeholder={obj.frequenciaAluno}
                 name="frequenciaAluno"
-                value={obj.frequenciaAluno}
+                value={state.frequenciaAluno}
                 onChange={(e) => handleOnChange(e)}
               />
             </td>
@@ -127,9 +128,7 @@ export default function TableContainerRegisterMetrics() {
                     onClick={() => {
                       handleClick(
                         obj.matriculaAluno,
-                        obj.idDisciplina,
-                        obj.notaAluno,
-                        obj.frequenciaAluno
+                        obj.idDisciplina
                       );
                     }}
                   >
