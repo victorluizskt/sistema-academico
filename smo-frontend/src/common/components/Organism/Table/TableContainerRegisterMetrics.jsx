@@ -33,14 +33,22 @@ export default function TableContainerRegisterMetrics() {
   const { teacher } = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
 
-  const handleClick = async () => {
-    // try {
-    //   await repository.editStudent()
-    //   return
-    // } catch (error) {
+  const handleClick = async (studentId, idDisciplina, notaAluno, frequenciaAluno) => {
+    var request = {
+      'studentId': studentId,
+      'idDisciplina': idDisciplina,
+      'notaAluno': notaAluno,
+      'frequenciaAluno': frequenciaAluno
+    }
 
-    // }
-    setOpen(true);
+    try {
+      const { data } = await repository.editStudent(request);
+      console.log(data);
+      setOpen(data.success);
+      return
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const handleClose = (event, reason) => {
@@ -53,11 +61,14 @@ export default function TableContainerRegisterMetrics() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await repository.getAllStudents(teacher.IdProfessor);
+      const request = {
+        'professorId': teacher.idProfessor
+      };
 
+      const { data } = await repository.getAllStudents(request);
       setStudentsData(data);
     })();
-  }, [teacher.IdProfessor]);
+  }, [teacher.idProfessor]);
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -70,7 +81,7 @@ export default function TableContainerRegisterMetrics() {
           <th style={{ width: 60 }}>Frequência</th>
           <th></th>
         </tr>
-        {setStudentsData?.map((obj) => (
+        {studentsData?.map((obj) => (
           <tr>
             <td>{obj.nomeAluno}</td>
             <td>{obj.nomeCurso}</td>
@@ -78,7 +89,6 @@ export default function TableContainerRegisterMetrics() {
             <td>
               <TextField
                 fullWidth
-                // label="Standard"
                 variant="standard"
                 value={obj.notaAluno}
               />
@@ -86,12 +96,10 @@ export default function TableContainerRegisterMetrics() {
             <td>
               <TextField
                 fullWidth
-                // label="Standard"
                 variant="standard"
                 value={obj.frequenciaAluno}
               />
             </td>
-
             <td>
               <ThemeProvider theme={theme}>
                 <Grid container style={{ alignItems: "center" }}>
@@ -100,20 +108,16 @@ export default function TableContainerRegisterMetrics() {
                     style={{
                       marginLeft: 10,
                     }}
-                    // disabled={disciplina.disabled}
                     onClick={() => {
-                      handleClick();
-                      // obj.nomeAluno,
-                      // obj.curso,
-                      // obj.nota,
-                      // obj.frequencia
-                      // disciplina.idDisciplina,
-                      // disciplina.idProfessor,
-                      // disciplina.sala,
-                      // index
+                      handleClick(
+                        obj.matriculaAluno, 
+                        obj.idDisciplina, 
+                        obj.notaAluno,
+                        obj.frequenciaAluno
+                      );
                     }}
                   >
-                    Matricular-se
+                    Editar
                   </Button>
                 </Grid>
               </ThemeProvider>

@@ -14,16 +14,16 @@ export const AuthProvider = (props) => {
   })
 
   const [typeUser, setTypeUserLogged] = useState({
-    type: 'professor'
+    type: null
   })
 
   const [teacher, setTeacher] = useState({
-    NomeProfessor: null,
-    IdProfessor: null,
-    Usuario: null,
-    Senha: null, 
-    IdDisciplina: null,
-    NomeDisciplina: null,
+    nomeProfessor: null,
+    idProfessor: null,
+    usuario: null,
+    senha: null, 
+    idDisciplina: null,
+    nomeDisciplina: null,
     typeUser: null
   })
 

@@ -77,21 +77,22 @@ const Login = () => {
     } else {
       const { data: {
         success,
-        NomeProfessor,
-        IdProfessor,
-        Usuario,
-        Senha,
-        IdDisciplina,
-        NomeDisciplina
+        nomeProfessor,
+        idProfessor,
+        usuario,
+        senha,
+        idDisciplina,
+        nomeDisciplina
       }} = await repository.checkUser(request);
 
       setTeacher({
-        NomeProfessor,
-        IdProfessor,
-        Usuario,
-        Senha,
-        IdDisciplina,
-        NomeDisciplina,
+        success,
+        nomeProfessor,
+        idProfessor,
+        usuario,
+        senha,
+        idDisciplina,
+        nomeDisciplina,
         typeUser: typeUserLogged
       })
 

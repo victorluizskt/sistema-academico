@@ -14,8 +14,6 @@ namespace SMA.Backend.Controllers
             _session = dbSession;
         }
 
-        
-
         [HttpDelete("deleteStudent")]
         public async Task<IActionResult> DeleteStudent(
             [FromBody] StudentId studentId

@@ -1,12 +1,24 @@
 /* eslint-disable no-unused-vars */
-import * as React from "react";
-
+import React, { useEffect, useContext, useState } from "react";
+import { AuthContext } from "../../../../providers/auth";
 import Repository from "../../../../repositories/repository";
 
 
 const repository = new Repository();
 
 export default function TableContainerStudent() {
+  const [studentsData, setStudentsData] = useState([]);
+  const { teacher } = useContext(AuthContext);
+
+  useEffect(() => {
+    (async () => {
+      const request = {
+        'professorId': teacher.idProfessor
+      };
+      const { data } = await repository.getAllStudents(request);
+      setStudentsData(data);
+    })();
+  }, [teacher.idProfessor]);
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -18,16 +30,15 @@ export default function TableContainerStudent() {
           <th>Horario</th>
           <th>Frequencia</th>
         </tr>
-        {/* {studentData?.map((disciplina, index) => (
+        {studentsData?.map((obj) => (
           <tr>
-            <td>{disciplina.nomeDisciplina}</td>
-            <td>{disciplina.cargaHoraria}</td>
-            <td>{disciplina.sala}</td>
-            <td>{disciplina.professor}</td>
-            <td>{disciplina.horario}</td>
-            <td>{disciplina.quantidadeMaximaAluno}</td>
+            <td>{obj.nomeAluno}</td>
+            <td>{obj.nomeCurso}</td>
+            <td>{obj.nomeDisciplina}</td>
+            <td>{obj.horario}</td>
+            <td>{obj.frequenciaAluno}</td>
           </tr>
-        ))} */}
+        ))}
       </table>
     </div>
   );

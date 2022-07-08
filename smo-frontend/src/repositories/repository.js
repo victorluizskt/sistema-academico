@@ -44,15 +44,15 @@ export default class Repository {
 
   editStudent = async (data) => {
     try {
-      return api.post("/teacher/editStudent");
+      return api.post("/teacher/editStudent", data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  getAllStudents = async () => {
+  getAllStudents = async (data) => {
     try {
-      return api.post("/teacher/getAllStudents");
+      return api.post("/teacher/getAllStudents", data);
     } catch (error) {
       console.log(error);
     }
